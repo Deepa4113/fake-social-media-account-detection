@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FakeShield — Social Account Detection</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- SCAN LINE OVERLAY -->
+<div class="scanlines"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="#00f5c4" stroke-width="1.5" fill="none"/>
+        <polygon points="14,7 21,11 21,18 14,22 7,18 7,11" stroke="#00f5c4" stroke-width="1" fill="rgba(0,245,196,0.06)"/>
+        <circle cx="14" cy="14" r="3" fill="#00f5c4"/>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-title">FakeShield</div>
+      <div class="logo-sub">Detection Engine v2.1</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="index.html" class="nav-item active" data-page="dashboard">
+      <span class="nav-icon">◈</span>
+      <span>Dashboard</span>
+    </a>
+    <a href="accounts.html" class="nav-item" data-page="accounts">
+      <span class="nav-icon">◉</span>
+      <span>Accounts</span>
+    </a>
+    <a href="analyze.html" class="nav-item" data-page="analyze">
+      <span class="nav-icon">◎</span>
+      <span>Analyze</span>
+    </a>
+    <a href="reports.html" class="nav-item" data-page="reports">
+      <span class="nav-icon">◫</span>
+      <span>Reports</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="system-status">
+      <div class="status-dot pulse"></div>
+      <span>Engine Online</span>
+    </div>
+    <div class="sidebar-user">
+      <div class="user-avatar">A</div>
+      <div>
+        <div class="user-name">Admin</div>
+        <div class="user-role">System Analyst</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main-wrapper">
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="page-breadcrumb">
+        <span class="breadcrumb-root">SYSTEM</span>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">DASHBOARD</span>
+      </div>
+      <h1 class="page-title">Detection Overview</h1>
+    </div>
+    <div class="topbar-right">
+      <div class="live-badge">
+        <span class="live-dot"></span>
+        LIVE MONITORING
+      </div>
+      <div class="topbar-time" id="clock">--:--:--</div>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <!-- STAT CARDS -->
+    <section class="stats-grid">
+      <div class="stat-card stat-total animate-in" style="--delay:0.05s">
+        <div class="stat-label">TOTAL ANALYZED</div>
+        <div class="stat-value" data-target="1482">0</div>
+        <div class="stat-change up">↑ 12 today</div>
+        <div class="stat-bar-bg"><div class="stat-bar" style="width:100%; background: var(--accent)"></div></div>
+      </div>
+      <div class="stat-card stat-fake animate-in" style="--delay:0.1s">
+        <div class="stat-label">FAKE DETECTED</div>
+        <div class="stat-value danger" data-target="584">0</div>
+        <div class="stat-change up">↑ 7 today</div>
+        <div class="stat-bar-bg"><div class="stat-bar" style="width:39%; background: var(--danger)"></div></div>
+      </div>
+      <div class="stat-card stat-suspicious animate-in" style="--delay:0.15s">
+        <div class="stat-label">SUSPICIOUS</div>
+        <div class="stat-value warn" data-target="231">0</div>
+        <div class="stat-change up">↑ 3 today</div>
+        <div class="stat-bar-bg"><div class="stat-bar" style="width:16%; background: var(--warn)"></div></div>
+      </div>
+      <div class="stat-card stat-real animate-in" style="--delay:0.2s">
+        <div class="stat-label">VERIFIED REAL</div>
+        <div class="stat-value safe" data-target="667">0</div>
+        <div class="stat-change up">↑ 2 today</div>
+        <div class="stat-bar-bg"><div class="stat-bar" style="width:45%; background: var(--safe)"></div></div>
+      </div>
+    </section>
+
+    <!-- MIDDLE ROW -->
+    <section class="middle-row">
+
+      <!-- DONUT CHART -->
+      <div class="card chart-card animate-in" style="--delay:0.25s">
+        <div class="card-header">
+          <span class="card-title">Verdict Distribution</span>
+          <span class="card-tag">ALL TIME</span>
+        </div>
+        <div class="donut-wrapper">
+          <svg viewBox="0 0 160 160" class="donut-svg">
+            <circle class="donut-track" cx="80" cy="80" r="60" />
+            <!-- FAKE: 39% -->
+            <circle class="donut-seg seg-fake"        cx="80" cy="80" r="60" stroke-dasharray="147 230" stroke-dashoffset="0"/>
+            <!-- SUSPICIOUS: 16% -->
+            <circle class="donut-seg seg-suspicious"  cx="80" cy="80" r="60" stroke-dasharray="60 317"  stroke-dashoffset="-147"/>
+            <!-- REAL: 45% -->
+            <circle class="donut-seg seg-real"        cx="80" cy="80" r="60" stroke-dasharray="170 207" stroke-dashoffset="-207"/>
+            <text x="80" y="75" class="donut-pct">45%</text>
+            <text x="80" y="92" class="donut-lbl">REAL</text>
+          </svg>
+          <div class="donut-legend">
+            <div class="legend-item"><span class="legend-dot" style="background:var(--danger)"></span><span>Fake</span><strong>39%</strong></div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--warn)"></span><span>Suspicious</span><strong>16%</strong></div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--safe)"></span><span>Real</span><strong>45%</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PLATFORM BREAKDOWN -->
+      <div class="card platform-card animate-in" style="--delay:0.3s">
+        <div class="card-header">
+          <span class="card-title">Platform Breakdown</span>
+          <span class="card-tag">LAST 30D</span>
+        </div>
+        <div class="platform-list">
+          <div class="platform-row">
+            <div class="platform-name"><span class="plat-badge twitter">𝕏</span>Twitter</div>
+            <div class="platform-bar-wrap"><div class="platform-bar-fill" style="width:72%; background:#1da1f2"></div></div>
+            <div class="platform-count">421</div>
+          </div>
+          <div class="platform-row">
+            <div class="platform-name"><span class="plat-badge instagram">◉</span>Instagram</div>
+            <div class="platform-bar-wrap"><div class="platform-bar-fill" style="width:58%; background:#e1306c"></div></div>
+            <div class="platform-count">339</div>
+          </div>
+          <div class="platform-row">
+            <div class="platform-name"><span class="plat-badge facebook">f</span>Facebook</div>
+            <div class="platform-bar-wrap"><div class="platform-bar-fill" style="width:44%; background:#1877f2"></div></div>
+            <div class="platform-count">258</div>
+          </div>
+          <div class="platform-row">
+            <div class="platform-name"><span class="plat-badge tiktok">♪</span>TikTok</div>
+            <div class="platform-bar-wrap"><div class="platform-bar-fill" style="width:31%; background:#ff0050"></div></div>
+            <div class="platform-count">182</div>
+          </div>
+          <div class="platform-row">
+            <div class="platform-name"><span class="plat-badge linkedin">in</span>LinkedIn</div>
+            <div class="platform-bar-wrap"><div class="platform-bar-fill" style="width:18%; background:#0a66c2"></div></div>
+            <div class="platform-count">105</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCORE METER -->
+      <div class="card meter-card animate-in" style="--delay:0.35s">
+        <div class="card-header">
+          <span class="card-title">System Threat Level</span>
+        </div>
+        <div class="meter-wrap">
+          <div class="arc-meter">
+            <svg viewBox="0 0 200 120">
+              <defs>
+                <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%"   stop-color="#00f5c4"/>
+                  <stop offset="50%"  stop-color="#ffa94d"/>
+                  <stop offset="100%" stop-color="#ff4d6d"/>
+                </linearGradient>
+              </defs>
+              <path d="M20,100 A80,80 0 0,1 180,100" stroke="rgba(255,255,255,0.06)" stroke-width="14" fill="none" stroke-linecap="round"/>
+              <path d="M20,100 A80,80 0 0,1 180,100" stroke="url(#arcGrad)" stroke-width="14" fill="none" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="125" class="arc-fill"/>
+              <text x="100" y="90" class="arc-value">47%</text>
+              <text x="100" y="108" class="arc-label">AVG FAKE SCORE</text>
+            </svg>
+          </div>
+          <div class="meter-scale">
+            <span style="color:var(--safe)">SAFE</span>
+            <span style="color:var(--warn)">MODERATE</span>
+            <span style="color:var(--danger)">CRITICAL</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RECENT ACTIVITY TABLE -->
+    <section class="card table-card animate-in" style="--delay:0.4s">
+      <div class="card-header">
+        <span class="card-title">Recent Detections</span>
+        <a href="accounts.html" class="view-all-link">View All →</a>
+      </div>
+      <div class="table-wrapper">
+        <table class="detection-table">
+          <thead>
+            <tr>
+              <th>ACCOUNT</th>
+              <th>PLATFORM</th>
+              <th>FAKE SCORE</th>
+              <th>VERDICT</th>
+              <th>CONFIDENCE</th>
+              <th>ANALYZED</th>
+              <th>ACTION</th>
+            </tr>
+          </thead>
+          <tbody id="recentTableBody">
+            <!-- Injected by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

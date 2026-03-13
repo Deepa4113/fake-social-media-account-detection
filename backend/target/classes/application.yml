@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: fake-social-media-detection
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fake_detection_db
+    username: postgres
+    password: Root123
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+jwt:
+  secret: fakeDetectionSecretKey2024!SuperSecureKeyForJWTSigningPurposes
+  expiration: 86400000   # 24 hours in ms
+  refresh-expiration: 604800000  # 7 days
+
+app:
+  cors:
+    allowed-origins: http://localhost:3000,http://localhost:5173
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.fakedetection: DEBUG
+    org.springframework.security: INFO

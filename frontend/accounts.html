@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accounts — FakeShield</title>
+  <link rel="stylesheet" href="styles/main.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="scanlines"></div>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="#00f5c4" stroke-width="1.5" fill="none"/>
+        <polygon points="14,7 21,11 21,18 14,22 7,18 7,11" stroke="#00f5c4" stroke-width="1" fill="rgba(0,245,196,0.06)"/>
+        <circle cx="14" cy="14" r="3" fill="#00f5c4"/>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-title">FakeShield</div>
+      <div class="logo-sub">Detection Engine v2.1</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="index.html"    class="nav-item"><span class="nav-icon">◈</span><span>Dashboard</span></a>
+    <a href="accounts.html" class="nav-item active"><span class="nav-icon">◉</span><span>Accounts</span></a>
+    <a href="analyze.html"  class="nav-item"><span class="nav-icon">◎</span><span>Analyze</span></a>
+    <a href="reports.html"  class="nav-item"><span class="nav-icon">◫</span><span>Reports</span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="system-status"><div class="status-dot pulse"></div><span>Engine Online</span></div>
+    <div class="sidebar-user">
+      <div class="user-avatar">A</div>
+      <div><div class="user-name">Admin</div><div class="user-role">System Analyst</div></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main-wrapper">
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="page-breadcrumb">
+        <span class="breadcrumb-root">SYSTEM</span>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">ACCOUNTS</span>
+      </div>
+      <h1 class="page-title">Monitored Accounts</h1>
+    </div>
+    <div class="topbar-right">
+      <div class="live-badge"><span class="live-dot"></span>LIVE MONITORING</div>
+      <div class="topbar-time" id="clock">--:--:--</div>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <!-- TOOLBAR -->
+    <div class="accounts-toolbar animate-in" style="--delay:0.05s">
+      <div class="search-box">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="searchInput" placeholder="Search by username or name..." />
+      </div>
+      <div class="filter-chips">
+        <button class="filter-chip active" data-filter="ALL">ALL</button>
+        <button class="filter-chip chip-FAKE" data-filter="FAKE">FAKE</button>
+        <button class="filter-chip chip-SUSPICIOUS" data-filter="SUSPICIOUS">SUSPICIOUS</button>
+        <button class="filter-chip chip-REAL" data-filter="REAL">REAL</button>
+      </div>
+      <button class="btn-primary" onclick="openAddModal()">+ Add Account</button>
+    </div>
+
+    <!-- ACCOUNTS GRID -->
+    <div class="accounts-grid" id="accountsGrid">
+      <!-- Populated by JS -->
+    </div>
+
+    <div id="emptyState" class="empty-state" style="display:none">
+      <div style="font-size:32px;margin-bottom:12px">◎</div>
+      No accounts match your filters.
+    </div>
+
+  </main>
+</div>
+
+<!-- ADD ACCOUNT MODAL -->
+<div class="modal-overlay" id="addModal" style="display:none" onclick="closeAddModalIfOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Account for Analysis</div>
+      <button class="modal-close" onclick="closeAddModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">PLATFORM</label>
+        <select class="form-control" id="m_platform">
+          <option value="TWITTER">𝕏 Twitter</option>
+          <option value="INSTAGRAM">Instagram</option>
+          <option value="FACEBOOK">Facebook</option>
+          <option value="TIKTOK">TikTok</option>
+          <option value="LINKEDIN">LinkedIn</option>
+          <option value="OTHER">Other</option>
+        </select>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label">USERNAME *</label>
+          <input class="form-control" id="m_username" placeholder="@handle" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">DISPLAY NAME</label>
+          <input class="form-control" id="m_displayName" placeholder="Full name" />
+        </div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label">FOLLOWERS</label>
+          <input class="form-control" id="m_followers" type="number" placeholder="0" min="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">FOLLOWING</label>
+          <input class="form-control" id="m_following" type="number" placeholder="0" min="0" />
+        </div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label">POSTS COUNT</label>
+          <input class="form-control" id="m_posts" type="number" placeholder="0" min="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">ACCOUNT AGE (DAYS)</label>
+          <input class="form-control" id="m_age" type="number" placeholder="0" min="0" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">BIO</label>
+        <textarea class="form-control" id="m_bio" rows="2" placeholder="Profile biography..." style="resize:vertical"></textarea>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label">HAS PROFILE PIC?</label>
+          <select class="form-control" id="m_hasPic">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">VERIFIED ACCOUNT?</label>
+          <select class="form-control" id="m_verified">
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-analyze" id="addSubmitBtn" onclick="submitAddAccount()">
+        ADD &amp; ANALYZE
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/accounts.js"></script>
+</body>
+</html>

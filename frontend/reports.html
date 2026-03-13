@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reports — FakeShield</title>
+  <link rel="stylesheet" href="styles/main.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="scanlines"></div>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="#00f5c4" stroke-width="1.5" fill="none"/>
+        <polygon points="14,7 21,11 21,18 14,22 7,18 7,11" stroke="#00f5c4" stroke-width="1" fill="rgba(0,245,196,0.06)"/>
+        <circle cx="14" cy="14" r="3" fill="#00f5c4"/>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-title">FakeShield</div>
+      <div class="logo-sub">Detection Engine v2.1</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="index.html"    class="nav-item"><span class="nav-icon">◈</span><span>Dashboard</span></a>
+    <a href="accounts.html" class="nav-item"><span class="nav-icon">◉</span><span>Accounts</span></a>
+    <a href="analyze.html"  class="nav-item"><span class="nav-icon">◎</span><span>Analyze</span></a>
+    <a href="reports.html"  class="nav-item active"><span class="nav-icon">◫</span><span>Reports</span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="system-status"><div class="status-dot pulse"></div><span>Engine Online</span></div>
+    <div class="sidebar-user">
+      <div class="user-avatar">A</div>
+      <div><div class="user-name">Admin</div><div class="user-role">System Analyst</div></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main-wrapper">
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="page-breadcrumb">
+        <span class="breadcrumb-root">SYSTEM</span>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">REPORTS</span>
+      </div>
+      <h1 class="page-title">Reports &amp; Export</h1>
+    </div>
+    <div class="topbar-right">
+      <div class="live-badge"><span class="live-dot"></span>LIVE MONITORING</div>
+      <div class="topbar-time" id="clock">--:--:--</div>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <!-- SUMMARY STRIP -->
+    <div class="card animate-in" style="--delay:0.05s; padding:18px 24px;">
+      <div style="display:flex;align-items:center;gap:32px;flex-wrap:wrap">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);margin-bottom:4px">REPORT PERIOD</div>
+          <div style="font-size:15px;font-weight:700">Jan 2025 — Mar 2026</div>
+        </div>
+        <div style="height:36px;width:1px;background:var(--border)"></div>
+        <div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);margin-bottom:4px">TOTAL ACCOUNTS</div>
+          <div style="font-size:15px;font-weight:700">1,482</div>
+        </div>
+        <div style="height:36px;width:1px;background:var(--border)"></div>
+        <div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);margin-bottom:4px">DETECTION RATE</div>
+          <div style="font-size:15px;font-weight:700;color:var(--danger)">39.4% FAKE</div>
+        </div>
+        <div style="height:36px;width:1px;background:var(--border)"></div>
+        <div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);margin-bottom:4px">ACCURACY</div>
+          <div style="font-size:15px;font-weight:700;color:var(--safe)">91.2%</div>
+        </div>
+        <button class="btn-primary" style="margin-left:auto" onclick="exportCSV()">↓ Export All CSV</button>
+      </div>
+    </div>
+
+    <!-- REPORT CARDS -->
+    <div class="reports-grid">
+      <div class="report-card animate-in" style="--delay:0.08s">
+        <div class="report-icon">📊</div>
+        <div class="report-title">Monthly Detection Report</div>
+        <div class="report-desc">Complete breakdown of all fake accounts detected in the current month, with platform analysis and trend data.</div>
+        <div class="report-meta">
+          <span class="report-date">Generated: Mar 12, 2026</span>
+          <button class="btn-download" onclick="showToast('Downloading monthly report...','info')">↓ CSV</button>
+        </div>
+      </div>
+
+      <div class="report-card animate-in" style="--delay:0.11s">
+        <div class="report-icon">🚫</div>
+        <div class="report-title">High-Risk Accounts List</div>
+        <div class="report-desc">All accounts scoring above 70 (FAKE verdict) with full feature analysis and confidence levels.</div>
+        <div class="report-meta">
+          <span class="report-date">Updated: hourly</span>
+          <button class="btn-download" onclick="showToast('Downloading high-risk list...','info')">↓ CSV</button>
+        </div>
+      </div>
+
+      <div class="report-card animate-in" style="--delay:0.14s">
+        <div class="report-icon">📈</div>
+        <div class="report-title">Platform Breakdown Report</div>
+        <div class="report-desc">Per-platform statistics showing fake account rates, average scores, and trend changes over time.</div>
+        <div class="report-meta">
+          <span class="report-date">Generated: Mar 12, 2026</span>
+          <button class="btn-download" onclick="showToast('Downloading platform report...','info')">↓ CSV</button>
+        </div>
+      </div>
+
+      <div class="report-card animate-in" style="--delay:0.17s">
+        <div class="report-icon">🔍</div>
+        <div class="report-title">Feature Analysis Summary</div>
+        <div class="report-desc">Which features contribute most to fake account detection — aggregated across all analyzed accounts.</div>
+        <div class="report-meta">
+          <span class="report-date">Generated: Mar 12, 2026</span>
+          <button class="btn-download" onclick="showToast('Downloading feature report...','info')">↓ CSV</button>
+        </div>
+      </div>
+
+      <div class="report-card animate-in" style="--delay:0.2s">
+        <div class="report-icon">⚠️</div>
+        <div class="report-title">Suspicious Accounts Watch</div>
+        <div class="report-desc">All accounts in the SUSPICIOUS range (40–70 score) requiring manual review or further monitoring.</div>
+        <div class="report-meta">
+          <span class="report-date">Updated: daily</span>
+          <button class="btn-download" onclick="showToast('Downloading suspicious list...','info')">↓ CSV</button>
+        </div>
+      </div>
+
+      <div class="report-card animate-in" style="--delay:0.23s">
+        <div class="report-icon">✅</div>
+        <div class="report-title">Verified Real Accounts Log</div>
+        <div class="report-desc">Full list of accounts that passed detection with REAL verdict and HIGH confidence for reference.</div>
+        <div class="report-meta">
+          <span class="report-date">Generated: Mar 12, 2026</span>
+          <button class="btn-download" onclick="showToast('Downloading verified list...','info')">↓ CSV</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECENT JOBS TABLE -->
+    <div class="card animate-in" style="--delay:0.26s; padding:22px 0">
+      <div class="card-header" style="padding:0 24px;margin-bottom:16px">
+        <span class="card-title">Batch Analysis Jobs</span>
+        <button class="btn-primary" style="font-size:10px;padding:7px 14px" onclick="showToast('Batch job queued!','success')">
+          + New Batch Job
+        </button>
+      </div>
+      <div class="table-wrapper">
+        <table class="detection-table">
+          <thead>
+            <tr>
+              <th>JOB NAME</th>
+              <th>STATUS</th>
+              <th>TOTAL</th>
+              <th>PROCESSED</th>
+              <th>COMPLETED</th>
+              <th>ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span style="font-weight:600">Twitter Scrape — Batch 12</span></td>
+              <td><span class="verdict-badge verdict-REAL">COMPLETED</span></td>
+              <td>250</td><td>250</td>
+              <td class="date-cell">Mar 12, 2026 09:14</td>
+              <td><button class="btn-detail" onclick="showToast('Downloading batch results...','info')">Download →</button></td>
+            </tr>
+            <tr>
+              <td><span style="font-weight:600">Instagram Bot Hunt — Q1</span></td>
+              <td><span class="verdict-badge verdict-REAL">COMPLETED</span></td>
+              <td>500</td><td>500</td>
+              <td class="date-cell">Mar 10, 2026 15:30</td>
+              <td><button class="btn-detail" onclick="showToast('Downloading batch results...','info')">Download →</button></td>
+            </tr>
+            <tr>
+              <td><span style="font-weight:600">Facebook Group Analysis</span></td>
+              <td><span class="verdict-badge verdict-SUSPICIOUS" style="color:var(--warn)">RUNNING</span></td>
+              <td>180</td><td>112</td>
+              <td class="date-cell">In progress...</td>
+              <td><button class="btn-detail">View Live →</button></td>
+            </tr>
+            <tr>
+              <td><span style="font-weight:600">TikTok Trend Check</span></td>
+              <td><span class="verdict-badge" style="color:var(--text-muted);border-color:var(--border);background:rgba(255,255,255,0.03)">PENDING</span></td>
+              <td>75</td><td>0</td>
+              <td class="date-cell">—</td>
+              <td><button class="btn-detail">Start →</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const el = document.getElementById('clock');
+  const tick = () => el.textContent = new Date().toLocaleTimeString('en-GB', { hour12: false });
+  tick(); setInterval(tick, 1000);
+});
+
+function exportCSV() {
+  const rows = [
+    ['username','platform','fakeScore','verdict','confidence','analyzedAt'],
+    ...MockData.accounts.map(a => [
+      a.username, a.platform,
+      a.latestResult?.fakeScore ?? '',
+      a.latestResult?.verdict ?? '',
+      a.latestResult?.confidenceLevel ?? '',
+      a.latestResult?.analyzedAt ?? '',
+    ])
+  ];
+  const csv = rows.map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'fakeshield-export.csv'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('CSV exported!', 'success');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Analyze — FakeShield</title>
+  <link rel="stylesheet" href="styles/main.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="scanlines"></div>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="#00f5c4" stroke-width="1.5" fill="none"/>
+        <polygon points="14,7 21,11 21,18 14,22 7,18 7,11" stroke="#00f5c4" stroke-width="1" fill="rgba(0,245,196,0.06)"/>
+        <circle cx="14" cy="14" r="3" fill="#00f5c4"/>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-title">FakeShield</div>
+      <div class="logo-sub">Detection Engine v2.1</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="index.html"    class="nav-item"><span class="nav-icon">◈</span><span>Dashboard</span></a>
+    <a href="accounts.html" class="nav-item"><span class="nav-icon">◉</span><span>Accounts</span></a>
+    <a href="analyze.html"  class="nav-item active"><span class="nav-icon">◎</span><span>Analyze</span></a>
+    <a href="reports.html"  class="nav-item"><span class="nav-icon">◫</span><span>Reports</span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="system-status"><div class="status-dot pulse"></div><span>Engine Online</span></div>
+    <div class="sidebar-user">
+      <div class="user-avatar">A</div>
+      <div><div class="user-name">Admin</div><div class="user-role">System Analyst</div></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main-wrapper">
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="page-breadcrumb">
+        <span class="breadcrumb-root">SYSTEM</span>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">ANALYZE</span>
+      </div>
+      <h1 class="page-title">Account Analyzer</h1>
+    </div>
+    <div class="topbar-right">
+      <div class="live-badge"><span class="live-dot"></span>LIVE MONITORING</div>
+      <div class="topbar-time" id="clock">--:--:--</div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="analyze-layout">
+
+      <!-- FORM CARD -->
+      <div class="card animate-in" style="--delay:0.05s">
+        <div class="card-header">
+          <span class="card-title">Account Details</span>
+          <span class="card-tag">MANUAL ENTRY</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">PLATFORM *</label>
+          <select class="form-control" id="a_platform">
+            <option value="TWITTER">𝕏 Twitter</option>
+            <option value="INSTAGRAM">Instagram</option>
+            <option value="FACEBOOK">Facebook</option>
+            <option value="TIKTOK">TikTok</option>
+            <option value="LINKEDIN">LinkedIn</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">USERNAME *</label>
+            <input class="form-control" id="a_username" placeholder="@handle" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">DISPLAY NAME</label>
+            <input class="form-control" id="a_displayName" placeholder="Full name shown" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">BIO / DESCRIPTION</label>
+          <textarea class="form-control" id="a_bio" rows="3" placeholder="Paste their bio here..." style="resize:vertical"></textarea>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">FOLLOWERS COUNT</label>
+            <input class="form-control" id="a_followers" type="number" placeholder="0" min="0" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">FOLLOWING COUNT</label>
+            <input class="form-control" id="a_following" type="number" placeholder="0" min="0" />
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">TOTAL POSTS</label>
+            <input class="form-control" id="a_posts" type="number" placeholder="0" min="0" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">ACCOUNT AGE (DAYS)</label>
+            <input class="form-control" id="a_age" type="number" placeholder="0" min="0" />
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">HAS PROFILE PICTURE?</label>
+            <select class="form-control" id="a_hasPic">
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">VERIFIED ACCOUNT?</label>
+            <select class="form-control" id="a_verified">
+              <option value="false">No</option>
+              <option value="true">Yes (Blue Tick)</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn-analyze" id="analyzeBtn" onclick="runAnalysis()">
+          ◎ RUN DETECTION ANALYSIS
+        </button>
+      </div>
+
+      <!-- RESULT PANEL -->
+      <div class="result-panel" id="resultPanel">
+        <div class="card-header mt-0" style="margin-bottom:0">
+          <span class="card-title">Detection Result</span>
+          <span class="card-tag" id="resultTag">PENDING</span>
+        </div>
+
+        <div class="result-placeholder" id="resultPlaceholder">
+          <div class="result-placeholder-icon">◎</div>
+          <div class="result-placeholder-text">AWAITING INPUT</div>
+          <div style="font-size:11px;color:var(--text-dim);text-align:center;font-family:var(--font-mono);line-height:1.8">
+            Fill in the account details<br/>and run analysis to see results.
+          </div>
+        </div>
+
+        <div id="resultContent" style="display:none">
+          <div class="result-score-big">
+            <div class="score-circle">
+              <svg viewBox="0 0 100 100">
+                <circle class="score-circle-bg"   cx="50" cy="50" r="42"/>
+                <circle class="score-circle-fill" id="scoreCircleFill" cx="50" cy="50" r="42"
+                        stroke-dasharray="0 263.9" stroke-dashoffset="0"/>
+              </svg>
+              <div class="score-circle-inner">
+                <div class="score-big-num" id="scoreNum">0</div>
+                <div class="score-big-label">FAKE SCORE</div>
+              </div>
+            </div>
+            <div class="result-verdict" id="resultVerdict">—</div>
+            <div class="result-conf" id="resultConf">—</div>
+          </div>
+
+          <div style="margin-bottom:14px">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);letter-spacing:1px;margin-bottom:12px">
+              FEATURE BREAKDOWN
+            </div>
+            <div class="feature-list" id="featureList"></div>
+          </div>
+
+          <div id="analysisNotes" style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:6px;padding:12px;font-size:11px;color:var(--text-muted);font-family:var(--font-mono);line-height:1.7"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/analyze.js"></script>
+</body>
+</html>
